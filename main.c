@@ -68,14 +68,15 @@ int wkt_check(char *figure, int figure_length)
     if (n == 5) {
         for (i = 0; i < n; ++i) {
             if (tolower(figure[i]) != example_circle[i]) {
-                figure[i] = tolower(figure[i]);
                 printf("Error at column %d: expected 'circle'\n", i);
                 exit(EXIT_FAILURE);
             }
             else {
-                return 1;
+                figure[i] = tolower(figure[i]);
+                continue;
             }
         }
+        return 1;
     }
     //else if (n == 6) {
         //polygon check
