@@ -1,5 +1,5 @@
-#ignore object files
-*.o
+#ignore files
+obj/*
 *.exe
 *.com
-main
+bin/geometry
