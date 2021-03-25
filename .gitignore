@@ -1,5 +1,6 @@
 #ignore files
 obj/*
+*.d
 *.exe
 *.com
 bin/geometry
