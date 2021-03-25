@@ -1,61 +1,4 @@
-#include <ctype.h>
-#include <math.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-#define _CRT_SECURE_NO_WARNINGS
-#define MAXSIZE 50
-#define NORMVALUE 1
-
-typedef struct {
-    double r;
-    int x;
-    int y;
-    int space;
-    int comma;
-    int open_bracket;
-    int close_bracket;
-} Circle;
-
-typedef struct {
-    double perimeter;
-    double area;
-} Calculations;
-
-Calculations circle_compute(char *circle, double radius);
-
-int radius_check(char *figure, int indx1, int indx2);
-
-int point_check(char *figure, int indx1, int indx2);
-
-int control_count(int norm, int get_count);
-
-Circle circle_wkt_check(char *circle_figure, int circle_length);
-
-int wkt_check(char *figure, int figure_length);
-
-int main()
-{
-    char object[MAXSIZE];
-    printf("Enter the type of the figure: ");
-    scanf("%[^\n]s", object);
-    int object_len = strlen(object);
-
-    int figure_define = wkt_check(object, object_len);
-    if (figure_define == 1) {
-        Circle tokens;
-        tokens = circle_wkt_check(object, object_len);
-
-        Calculations result_calc;
-        result_calc = circle_compute(object, tokens.r);
-
-        printf("%s\n", object);
-        printf("    perimeter = %lf\n", result_calc.perimeter);
-        printf("    area = %lf\n", result_calc.area);
-    }
-    return 0;
-}
+#include <libgeometry/functions.h>
 
 int wkt_check(char *figure, int figure_length)
 {
@@ -209,7 +152,7 @@ int radius_check(char *figure, int indx1, int indx2)
     return checker;
 }
 
-Calculations circle_compute(char *circle, double radius)
+Calculations circle_compute(double radius)
 {
     Calculations result;
     result.perimeter = 2 * M_PI * radius;
