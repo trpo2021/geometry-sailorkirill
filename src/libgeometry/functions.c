@@ -4,7 +4,6 @@ int wkt_check(char* figure, int figure_length)
 {
     int i, n;
     char example_circle[] = "circle(x y, r)";
- 
     for (i = 0; (figure[i] != '(') && (i < figure_length); ++i) {
         n = i;
     }
@@ -22,7 +21,7 @@ int wkt_check(char* figure, int figure_length)
     }
     // else if (n == 6)
     // polygon check
-    //else if (n == 7)
+    // else if (n == 7)
     // triangle check
     else {
         printf("Error at column %d: expected 'circle'\n", n + 1);
@@ -64,7 +63,7 @@ Circle circle_wkt_check(char* circle_figure, int circle_length)
     } else {
         if (circle_figure[circle_tokens.close_bracket + 1] != '\0') {
             printf("Error at column %d: unexpected token\n",
-                     circle_tokens.close_bracket + 1);
+                   circle_tokens.close_bracket + 1);
             exit(EXIT_FAILURE);
         }
         int checker = point_check(
