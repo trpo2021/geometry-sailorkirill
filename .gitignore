@@ -1,6 +1,8 @@
 #ignore files
-obj/*
-*.d
 *.exe
 *.com
+*.out
+*.d
+*.o
+*.a
 bin/geometry
