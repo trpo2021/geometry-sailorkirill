@@ -19,6 +19,8 @@ int main()
         int x_coord[MAXSIZE];
         int y_coord[MAXSIZE];
         double radius[MAXSIZE];
+        int x_coord_triangle[MAXSIZE][4];
+        int y_coord_triangle[MAXSIZE][4];
 
         figure_define[number_of_figures] = wkt_check(object, object_len);
         if (figure_define[number_of_figures] == 1) {
@@ -46,6 +48,11 @@ int main()
             printf("%d. %s\n", number_of_figures + 1, object);
             printf("    perimeter = %lf\n", result_calc.perimeter);
             printf("    area = %lf\n", result_calc.area);
+
+            for (int i = 0; i < 4; ++i) {
+                x_coord_triangle[number_of_figures][i] = tokens.x[i];
+                y_coord_triangle[number_of_figures][i] = tokens.y[i];
+            }
         }
 
         if (number_of_figures > 0) {
@@ -54,6 +61,22 @@ int main()
                     double distance = sqrt(pow(x_coord[number_of_figures] - x_coord[number_of_figures - i], 2) + pow(y_coord[number_of_figures] - y_coord[number_of_figures - i], 2));
                     if ((radius[number_of_figures] + radius[number_of_figures - i] >= distance) && (distance + radius[number_of_figures - i] > radius[number_of_figures]) && (distance + radius[number_of_figures] > radius[number_of_figures - i])) {
                         printf("    intersects with a circle #%d\n", number_of_figures - i + 1);
+                    }
+                } else if ((figure_define[number_of_figures] == 2) && (figure_define[number_of_figures - i] == 1)) {
+                    for (int j = 0; j < 4; ++j) {
+                        double distance = sqrt(pow(x_coord_triangle[number_of_figures][j] - x_coord[number_of_figures - i], 2) + pow(y_coord_triangle[number_of_figures][j] - y_coord[number_of_figures - i], 2));
+                        if (distance < radius[number_of_figures - i]) {
+                            printf("    intersects with a circle #%d\n", number_of_figures - i + 1);
+                            break;
+                        }
+                    }
+                } else if ((figure_define[number_of_figures] == 1) && (figure_define[number_of_figures - i] == 2)) {
+                    for (int j = 0; j < 4; ++j) {
+                        double distance = sqrt(pow(x_coord[number_of_figures] - x_coord_triangle[number_of_figures - i][j], 2) + pow(y_coord[number_of_figures] - y_coord_triangle[number_of_figures - i][j], 2));
+                        if (distance < radius[number_of_figures]) {
+                            printf("    intersects with a triangle #%d\n", number_of_figures - i + 1);
+                            break;
+                        }
                     }
                 }
             }
