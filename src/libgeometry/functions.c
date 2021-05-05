@@ -1,18 +1,19 @@
+#include <libgeometry/errorout.h>
 #include <libgeometry/functions.h>
 
 int wkt_check(char* figure, int figure_length)
 {
     int i, n;
     char example_circle[] = "circle(x y, r)";
-    char example_triangle[] = "triangle(x1 y1, x2 y2, x3 y3, x4 y4)";
+    char example_triangle[] = "triangle((x1 y1, x2 y2, x3 y3, x4 y4))";
     for (i = 0; (figure[i] != '(') && (i < figure_length); ++i) {
         n = i;
     }
     if (n == 5) {
         for (i = 0; i < n; ++i) {
             if (tolower(figure[i]) != example_circle[i]) {
-                printf("Error at column %d: expected 'circle'\n", i);
-                exit(EXIT_FAILURE);
+                CIRCLE_EXP;
+                return -1;
             } else {
                 figure[i] = tolower(figure[i]);
                 continue;
@@ -22,8 +23,8 @@ int wkt_check(char* figure, int figure_length)
     } else if (n == 7) {
         for (i = 0; i < n; ++i) {
             if (tolower(figure[i]) != example_triangle[i]) {
-                printf("Error at column %d: expected 'triangle'\n", i);
-                exit(EXIT_FAILURE);
+                TRIANGLE_EXP;
+                return -1;
             } else {
                 figure[i] = tolower(figure[i]);
                 continue;
@@ -32,8 +33,8 @@ int wkt_check(char* figure, int figure_length)
         return 2;
     }
     else {
-        printf("Error at column %d: expected 'circle' or 'triangle'\n", n + 1);
-        exit(EXIT_FAILURE);
+        CIRC_OR_TRI_EXP;
+        return -1;
     }
     return 0;
 }
@@ -67,12 +68,11 @@ Circle circle_wkt_check(char* circle_figure, int circle_length)
         cntrlcount += control_count(NORMVALUE, tmp[i]);
     }
     if (cntrlcount != 4) {
-        printf("Error: unexpected token\n");
+        UNEXPECTED_TOKEN;
         exit(EXIT_FAILURE);
     } else {
         if (circle_figure[circle_tokens.close_bracket + 2] != '\0') {
-            printf("Error at column %d: unexpected token\n",
-                   circle_tokens.close_bracket + 2);
+            UNEXPECTED_TOKEN;
             exit(EXIT_FAILURE);
         }
         int checker = point_check(
@@ -152,12 +152,11 @@ Triangle triangle_wkt_check(char* triangle_figure, int triangle_length)
         }
     }
     if (cntrlcount != 4) {
-        printf("Error: unexpected token\n");
+        UNEXPECTED_TOKEN;
         exit(EXIT_FAILURE);
     } else {
         if (triangle_figure[triangle_tokens.close_bracket[1] + 2] != '\0') {
-            printf("Error at column %d: unexpected token\n",
-                   triangle_tokens.close_bracket[1] + 2);
+            UNEXPECTED_TOKEN;
             exit(EXIT_FAILURE);
         }
         int checker = point_check(
@@ -194,7 +193,7 @@ Triangle triangle_wkt_check(char* triangle_figure, int triangle_length)
     if ((triangle_tokens.x[0] == triangle_tokens.x[3]) && (triangle_tokens.y[0] == triangle_tokens.y[3])) {
         return triangle_tokens;
     } else {
-        printf("Error: unexpected token\n");
+        UNEXPECTED_TOKEN;
         exit(EXIT_FAILURE);
     }
 }
@@ -221,7 +220,7 @@ int point_check(char* figure, int indx1, int indx2)
                     && (isdigit(figure[i + 1]) != 0))) {
             continue;
         } else {
-            printf("Error at column %d: expected '<int>'\n", i);
+            EXP_INTEGER;
             exit(EXIT_FAILURE);
         }
     }
@@ -255,7 +254,7 @@ int radius_check(char* figure, int indx1, int indx2)
                     && (isdigit(figure[i - 1]) != 0))) {
             continue;
         } else {
-            printf("Error at column %d: expected positive '<double>'\n", i);
+            EXP_DOUBLE;
             exit(EXIT_FAILURE);
         }
     }
