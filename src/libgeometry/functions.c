@@ -31,8 +31,7 @@ int wkt_check(char* figure, int figure_length)
             }
         }
         return 2;
-    }
-    else {
+    } else {
         CIRC_OR_TRI_EXP;
         return -1;
     }
@@ -138,7 +137,8 @@ Triangle triangle_wkt_check(char* triangle_figure, int triangle_length)
             tmp[2]++;
             triangle_tokens.comma[tmp[2] - 1] = i;
         }
-        if ((triangle_figure[i] == ' ') && (isdigit(triangle_figure[i - 1]) != 0)) {
+        if ((triangle_figure[i] == ' ')
+            && (isdigit(triangle_figure[i - 1]) != 0)) {
             tmp[3]++;
             triangle_tokens.space[tmp[3] - 1] = i;
         }
@@ -160,37 +160,62 @@ Triangle triangle_wkt_check(char* triangle_figure, int triangle_length)
             exit(EXIT_FAILURE);
         }
         int checker = point_check(
-                triangle_figure, triangle_tokens.open_bracket[1], triangle_tokens.space[0]);
+                triangle_figure,
+                triangle_tokens.open_bracket[1],
+                triangle_tokens.space[0]);
         if (checker != 0) {
-            triangle_tokens.x[0] = triangle_point_reader(triangle_figure, triangle_tokens.open_bracket[1], triangle_tokens.space[0]);
+            triangle_tokens.x[0] = triangle_point_reader(
+                    triangle_figure,
+                    triangle_tokens.open_bracket[1],
+                    triangle_tokens.space[0]);
             checker = point_check(
-                triangle_figure, triangle_tokens.comma[0], triangle_tokens.space[1]);
+                    triangle_figure,
+                    triangle_tokens.comma[0],
+                    triangle_tokens.space[1]);
             for (i = 1; (i < 4) && (checker != 0); ++i) {
-                triangle_tokens.x[i] = triangle_point_reader(triangle_figure, triangle_tokens.comma[i - 1], triangle_tokens.space[i]);
+                triangle_tokens.x[i] = triangle_point_reader(
+                        triangle_figure,
+                        triangle_tokens.comma[i - 1],
+                        triangle_tokens.space[i]);
                 if (i < 3) {
                     checker = point_check(
-                        triangle_figure, triangle_tokens.comma[i], triangle_tokens.space[i + 1]);
+                            triangle_figure,
+                            triangle_tokens.comma[i],
+                            triangle_tokens.space[i + 1]);
                 }
             }
             checker = point_check(
-                    triangle_figure, triangle_tokens.space[0], triangle_tokens.comma[0]);
+                    triangle_figure,
+                    triangle_tokens.space[0],
+                    triangle_tokens.comma[0]);
             if (checker != 0) {
                 for (i = 0; (i < 3) && (checker != 0); ++i) {
-                    triangle_tokens.y[i] = triangle_point_reader(triangle_figure, triangle_tokens.space[i], triangle_tokens.comma[i]);
+                    triangle_tokens.y[i] = triangle_point_reader(
+                            triangle_figure,
+                            triangle_tokens.space[i],
+                            triangle_tokens.comma[i]);
                     if (i < 2) {
                         checker = point_check(
-                            triangle_figure, triangle_tokens.space[i + 1], triangle_tokens.comma[i + 1]);
+                                triangle_figure,
+                                triangle_tokens.space[i + 1],
+                                triangle_tokens.comma[i + 1]);
                     }
                 }
                 checker = point_check(
-                    triangle_figure, triangle_tokens.space[3], triangle_tokens.close_bracket[0]);
+                        triangle_figure,
+                        triangle_tokens.space[3],
+                        triangle_tokens.close_bracket[0]);
                 if (checker != 0) {
-                    triangle_tokens.y[3] = triangle_point_reader(triangle_figure, triangle_tokens.space[3], triangle_tokens.close_bracket[1]);
+                    triangle_tokens.y[3] = triangle_point_reader(
+                            triangle_figure,
+                            triangle_tokens.space[3],
+                            triangle_tokens.close_bracket[1]);
                 }
             }
         }
     }
-    if ((triangle_tokens.x[0] == triangle_tokens.x[3]) && (triangle_tokens.y[0] == triangle_tokens.y[3])) {
+    if ((triangle_tokens.x[0] == triangle_tokens.x[3])
+        && (triangle_tokens.y[0] == triangle_tokens.y[3])) {
         return triangle_tokens;
     } else {
         UNEXPECTED_TOKEN;
@@ -227,12 +252,11 @@ int point_check(char* figure, int indx1, int indx2)
     return checker;
 }
 
-int triangle_point_reader(char *triangle_wkt, int boarder1, int boarder2)
+int triangle_point_reader(char* triangle_wkt, int boarder1, int boarder2)
 {
     int j = 0;
     char coord_of_point[boarder2 - boarder1];
-    for (int i = boarder1 + 1; i < boarder2;
-         ++i) {
+    for (int i = boarder1 + 1; i < boarder2; ++i) {
         coord_of_point[j] = triangle_wkt[i];
         j++;
     }
@@ -273,17 +297,20 @@ Calculations circle_compute(double radius)
 Calculations triangle_compute(Triangle points)
 {
     Calculations result;
-    double ab = sqrt(pow(points.x[1] - points.x[0], 2) +
-                     pow(points.y[1] - points.y[0], 2));
-    double bc = sqrt(pow(points.x[2] - points.x[1], 2) +
-                     pow(points.y[2] - points.y[1], 2));
-    double ac = sqrt(pow(points.x[2] - points.x[0], 2) +
-                     pow(points.y[2] - points.y[0], 2));
+    double ab
+            = sqrt(pow(points.x[1] - points.x[0], 2)
+                   + pow(points.y[1] - points.y[0], 2));
+    double bc
+            = sqrt(pow(points.x[2] - points.x[1], 2)
+                   + pow(points.y[2] - points.y[1], 2));
+    double ac
+            = sqrt(pow(points.x[2] - points.x[0], 2)
+                   + pow(points.y[2] - points.y[0], 2));
     result.perimeter = ab + bc + ac;
 
-    double det =
-        ((points.x[1] - points.x[0]) * (points.y[2] - points.y[0]) -
-        ((points.x[2] - points.x[0]) * (points.y[1] - points.y[0])));
+    double det
+            = ((points.x[1] - points.x[0]) * (points.y[2] - points.y[0])
+               - ((points.x[2] - points.x[0]) * (points.y[1] - points.y[0])));
     result.area = fabs(det) / 2;
 
     return result;

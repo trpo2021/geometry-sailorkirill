@@ -40,7 +40,7 @@ Calculations circle_compute(double radius);
 
 int radius_check(char* figure, int indx1, int indx2);
 
-int triangle_point_reader(char *triangle_wkt, int boarder1, int boarder2);
+int triangle_point_reader(char* triangle_wkt, int boarder1, int boarder2);
 
 int point_check(char* figure, int indx1, int indx2);
 
