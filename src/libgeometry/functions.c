@@ -319,3 +319,34 @@ Calculations triangle_compute(Triangle points)
 
     return result;
 }
+
+bool circ_intersects_circ(int x1, int x2, int y1, int y2, double r1, double r2)
+{
+    double distance = sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+    if ((r1 + r2 >= distance) && (distance + r2 > r1) && (distance + r1 > r2)) {
+        return true;
+    }
+    return false;
+}
+
+bool circ_intersects_triangle(int x1, int* x2, int y1, int* y2, int r)
+{
+    for (int i = 0; i < 4; ++i) {
+        double distance = sqrt(pow(x1 - x2[i], 2) + pow(y1 - y2[i], 2));
+        if (distance < r) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool triangle_intersects_circ(int* x1, int x2, int* y1, int y2, int r)
+{
+    for (int i = 0; i < 4; ++i) {
+        double distance = sqrt(pow(x1[i] - x2, 2) + pow(y1[i] - y2, 2));
+        if (distance < r) {
+            return true;
+        }
+    }
+    return false;
+}
