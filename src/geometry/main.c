@@ -97,7 +97,7 @@ int main()
                                 y_coord_triangle[number_of_figures - i],
                                 radius[number_of_figures])
                         == 1) {
-                        printf("    intersects with a triangle #%d\n", 
+                        printf("    intersects with a triangle #%d\n",
                                number_of_figures - i + 1);
                     }
                 }
