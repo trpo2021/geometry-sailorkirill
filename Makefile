@@ -13,8 +13,6 @@ OBJ_DIR = obj
 SRC_DIR = src
 TEST_DIR = test
 
-SHELL = /bin/sh
-
 TEST_PATH = $(BIN_DIR)/$(TEST_NAME)
 APP_PATH = $(BIN_DIR)/$(APP_NAME)
 LIB_PATH = $(OBJ_DIR)/$(SRC_DIR)/$(LIB_NAME)/$(LIB_NAME).a
