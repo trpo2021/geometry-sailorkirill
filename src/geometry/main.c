@@ -77,6 +77,19 @@ int main()
                 } else if (
                         (figure_define[number_of_figures] == 2)
                         && (figure_define[number_of_figures - i] == 1)) {
+                    if (triangle_intersects_circ(
+                                x_coord_triangle[number_of_figures],
+                                x_coord[number_of_figures - i],
+                                y_coord_triangle[number_of_figures],
+                                y_coord[number_of_figures - i],
+                                radius[number_of_figures - i])
+                        == 1) {
+                        printf("    intersects with a circle #%d\n",
+                               number_of_figures - i + 1);
+                    }
+                } else if (
+                        (figure_define[number_of_figures] == 1)
+                        && (figure_define[number_of_figures - i] == 2)) {
                     if (circ_intersects_triangle(
                                 x_coord[number_of_figures],
                                 x_coord_triangle[number_of_figures - i],
@@ -84,13 +97,6 @@ int main()
                                 y_coord_triangle[number_of_figures - i],
                                 radius[number_of_figures])
                         == 1) {
-                        printf("    intersects with a triangle #%d\n",
-                               number_of_figures - i + 1);
-                    }
-                } else if (
-                        (figure_define[number_of_figures] == 1)
-                        && (figure_define[number_of_figures - i] == 2)) {
-                    if (circ_intersects_triangle(x_coord[number_of_figures], x_coord_triangle[number_of_figures - i], y_coord[number_of_figures], y_coord_triangle[number_of_figures - i], radius[number_of_figures]) == 1) {
                         printf("    intersects with a triangle #%d\n", 
                                number_of_figures - i + 1);
                     }
