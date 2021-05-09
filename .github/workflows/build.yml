@@ -16,7 +16,7 @@ jobs:
         run: make test
       
       - name: Run test
-        run: bin/geometry-test.exe
+        run: bin/geometry-test
 
       - name: Build application
         run: make
