@@ -1,6 +1,10 @@
 #include <libgeometry/errorout.h>
 #include <libgeometry/functions.h>
 
+#include <ctype.h>
+#include <math.h>
+#include <stdlib.h>
+
 int wkt_check(char* figure, int figure_length)
 {
     int i, n;
