@@ -1,5 +1,6 @@
 #include <ctest.h>
 #include <libgeometry/functions.h>
+#include <string.h>
 
 CTEST(wkt_format_check, circle)
 {
@@ -179,8 +180,8 @@ CTEST(calculations, circle_calculate)
     double radius = 1.5;
     result = circle_compute(radius);
 
-    const int expected_area = 7.068583;
-    const int expected_perimeter = 9.424778;
+    const double expected_area = 7.068583;
+    const double expected_perimeter = 9.424778;
     ASSERT_DBL_NEAR(expected_area, result.area);
     ASSERT_DBL_NEAR(expected_perimeter, result.perimeter);
 }
@@ -199,8 +200,94 @@ CTEST(calculations, triangle_calculate)
 
     result = triangle_compute(points);
 
-    const int expected_area = 3;
-    const int expected_perimeter = 10.605551;
+    const double expected_area = 3;
+    const double expected_perimeter = 10.605551;
     ASSERT_DBL_NEAR(expected_area, result.area);
     ASSERT_DBL_NEAR(expected_perimeter, result.perimeter);
+}
+
+CTEST(intersections, circle_with_circle_1)
+{
+    double r1 = 5.1;
+    double r2 = 5.3;
+    int x1 = 2;
+    int y1 = 0;
+    int x2 = 0;
+    int y2 = 2;
+
+    bool result = circ_intersects_circ(x1, x2, y1, y2, r1, r2);
+
+    const bool expected = true;
+    ASSERT_EQUAL(expected, result);
+}
+
+CTEST(intersections, circle_with_circle_2)
+{
+    double r1 = 1.5;
+    double r2 = 1;
+    int x1 = 5;
+    int y1 = 1;
+    int x2 = 23;
+    int y2 = 312;
+
+    bool result = circ_intersects_circ(x1, x2, y1, y2, r1, r2);
+
+    const bool expected = false;
+    ASSERT_EQUAL(expected, result);
+}
+
+CTEST(intersections, circle_with_triangle_1)
+{
+    double r = 2.3;
+    int x1 = 5;
+    int y1 = 1;
+    int x2[] = {5, 2, 5, 5};
+    int y2[] = {1, 0, -1, 1};
+
+    bool result = circ_intersects_triangle(x1, x2, y1, y2, r);
+
+    const bool expected = true;
+    ASSERT_EQUAL(expected, result);
+}
+
+CTEST(intersections, circle_with_triangle_2)
+{
+    double r = 67;
+    int x1 = -3;
+    int y1 = -13;
+    int x2[] = {131, 225, 131, 131};
+    int y2[] = {-5, -81, 5, -5};
+
+    bool result = circ_intersects_triangle(x1, x2, y1, y2, r);
+
+    const bool expected = false;
+    ASSERT_EQUAL(expected, result);
+}
+
+CTEST(intersections, triangle_with_circle_1)
+{
+    double r = 5.7;
+    int x2 = 2;
+    int y2 = 3;
+    int x1[] = {2, 5, -2, 2};
+    int y1[] = {1, -1, 1, 1};
+
+    bool result = triangle_intersects_circ(x1, x2, y1, y2, r);
+
+    const bool expected = true;
+    ASSERT_EQUAL(expected, result);
+}
+
+CTEST(intersections, triangle_with_circle_2)
+{
+    double r = 67.8312;
+    int x2 = -313;
+    int y2 = -13;
+    int x1[] = {131, 225, 0, 131};
+    int y1[] = {-5, -8321, 5, -5};
+
+    bool result = triangle_intersects_circ(x1, x2, y1, y2, r);
+
+    const bool expected = false;
+    ASSERT_EQUAL(expected, result);
 }

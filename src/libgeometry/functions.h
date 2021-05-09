@@ -1,10 +1,6 @@
 #pragma once
 
-#include <ctype.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <stdbool.h>
 
 #define _CRT_SECURE_NO_WARNINGS
 #define MAXSIZE 50
@@ -51,3 +47,9 @@ Triangle triangle_wkt_check(char* triangle_figure, int triangle_length);
 Circle circle_wkt_check(char* circle_figure, int circle_length);
 
 int wkt_check(char* figure, int figure_length);
+
+bool circ_intersects_circ(int x1, int x2, int y1, int y2, double r1, double r2);
+
+bool circ_intersects_triangle(int x1, int* x2, int y1, int* y2, int r);
+
+bool triangle_intersects_circ(int* x1, int x2, int* y1, int y2, int r);

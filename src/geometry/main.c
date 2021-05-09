@@ -1,5 +1,9 @@
 #include <libgeometry/functions.h>
 
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+
 int main()
 {
     int number_of_figures = 0;
@@ -59,59 +63,42 @@ int main()
             for (int i = 1; number_of_figures - i >= 0; ++i) {
                 if ((figure_define[number_of_figures] == 1)
                     && (figure_define[number_of_figures - i] == 1)) {
-                    double distance = sqrt(
-                            pow(x_coord[number_of_figures]
-                                        - x_coord[number_of_figures - i],
-                                2)
-                            + pow(y_coord[number_of_figures]
-                                          - y_coord[number_of_figures - i],
-                                  2));
-                    if ((radius[number_of_figures]
-                                 + radius[number_of_figures - i]
-                         >= distance)
-                        && (distance + radius[number_of_figures - i]
-                            > radius[number_of_figures])
-                        && (distance + radius[number_of_figures]
-                            > radius[number_of_figures - i])) {
+                    if (circ_intersects_circ(
+                                x_coord[number_of_figures],
+                                x_coord[number_of_figures - i],
+                                y_coord[number_of_figures],
+                                y_coord[number_of_figures - i],
+                                radius[number_of_figures],
+                                radius[number_of_figures - i])
+                        == 1) {
                         printf("    intersects with a circle #%d\n",
                                number_of_figures - i + 1);
                     }
                 } else if (
                         (figure_define[number_of_figures] == 2)
                         && (figure_define[number_of_figures - i] == 1)) {
-                    for (int j = 0; j < 4; ++j) {
-                        double distance = sqrt(
-                                pow(x_coord_triangle[number_of_figures][j]
-                                            - x_coord[number_of_figures - i],
-                                    2)
-                                + pow(y_coord_triangle[number_of_figures][j]
-                                              - y_coord[number_of_figures - i],
-                                      2));
-                        if (distance < radius[number_of_figures - i]) {
-                            printf("    intersects with a circle #%d\n",
-                                   number_of_figures - i + 1);
-                            break;
-                        }
+                    if (triangle_intersects_circ(
+                                x_coord_triangle[number_of_figures],
+                                x_coord[number_of_figures - i],
+                                y_coord_triangle[number_of_figures],
+                                y_coord[number_of_figures - i],
+                                radius[number_of_figures - i])
+                        == 1) {
+                        printf("    intersects with a circle #%d\n",
+                               number_of_figures - i + 1);
                     }
                 } else if (
                         (figure_define[number_of_figures] == 1)
                         && (figure_define[number_of_figures - i] == 2)) {
-                    for (int j = 0; j < 4; ++j) {
-                        double distance = sqrt(
-                                pow(x_coord[number_of_figures]
-                                            - x_coord_triangle
-                                                    [number_of_figures - i][j],
-                                    2)
-                                + pow(y_coord[number_of_figures]
-                                              - y_coord_triangle
-                                                      [number_of_figures - i]
-                                                      [j],
-                                      2));
-                        if (distance < radius[number_of_figures]) {
-                            printf("    intersects with a triangle #%d\n",
-                                   number_of_figures - i + 1);
-                            break;
-                        }
+                    if (circ_intersects_triangle(
+                                x_coord[number_of_figures],
+                                x_coord_triangle[number_of_figures - i],
+                                y_coord[number_of_figures],
+                                y_coord_triangle[number_of_figures - i],
+                                radius[number_of_figures])
+                        == 1) {
+                        printf("    intersects with a triangle #%d\n",
+                               number_of_figures - i + 1);
                     }
                 }
             }
