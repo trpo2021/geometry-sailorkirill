@@ -1,0 +1,9 @@
+#ignore files
+*.exe
+*.com
+*.out
+*.d
+*.o
+*.a
+bin/geometry
+bin/geometry-test
