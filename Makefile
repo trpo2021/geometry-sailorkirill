@@ -31,7 +31,7 @@ TEST_OBJECTS = $(TEST_SOURCES:$(TEST_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(TEST_DIR)/%.
 
 DEPS = $(APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d)
 
-.PHONY: all
+.PHONY: all test
 all: $(APP_PATH)
 
 -include $(DEPS)
